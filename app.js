@@ -5,6 +5,7 @@ const productRoutes=require('./api/routes/product');
 const userRoutes=require('./api/routes/user');
 const interviewQuestionRoutes=require('./api/routes/interview_question');
 const quiz=require('./api/routes/quiz');
+const result=require('./api/routes/result');
 
 // const interviewQuestionRoutes=require('./api/routes/interview_question');
 const orderRoutes=require('./api/routes/order');
@@ -39,15 +40,17 @@ app.use((req,res,next)=>{
 })
 
 
-mongoose.connect("mongodb+srv://kaleemchd403:6lepAGSOttbUVTTT@cluster0.uokr3.mongodb.net/")
+mongoose.connect("mongodb+srv://kaleemchd403:"+ process.env.MONGO_ATLAS_PW +"@cluster0.uokr3.mongodb.net/")
 .then(result=>{
     console.log('app connedted to the database');
 });
 
-app.use('/products',productRoutes);
-app.use('/orders',orderRoutes);
+// app.use('/products',productRoutes);
+// app.use('/orders',orderRoutes);
+app.use('/interviewquestion',interviewQuestionRoutes);
 app.use('/user',userRoutes);
 app.use('/quiz',quiz);
+app.use('/result',result);
 
 
 ///if the rout is not found then the error error will through

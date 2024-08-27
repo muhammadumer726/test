@@ -1,9 +1,11 @@
 const express=require('express');
 const router=express.Router();
 const quiz=require('../model/quiz_model');
+const result=require('../model/result_model');
 const mongoose=require('mongoose');
+const checkauth=require('../middleware/check_auth')
 
-router.get('/:difficulty',(req,res,next)=>{
+router.get('/:difficulty',checkauth,(req,res,next)=>{
     console.log('this is get request');
     const difficulty = req.params.difficulty;
     try {
@@ -32,6 +34,9 @@ router.get('/:difficulty',(req,res,next)=>{
     });
 }
 });
+
+
+
 
 router.post('/', (req, res, next) => {
     console.log('Request body:', req.body);
@@ -141,6 +146,56 @@ router.delete('/:questionid',(req,res,next)=>{
         }
     });
 })
+
+
+///check result api
+
+router.post('/:difficulty', async (req, res, next) => {
+    console.log('This is a POST request');
+    const difficulty = req.params.difficulty;
+    const userAnswers = req.body.answers; 
+
+    try {
+        const questions = await quiz.find({ difficulty: difficulty })
+            .select("question key _id")
+            .exec();
+
+        if (questions.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No quiz found for the specified difficulty level"
+            });
+        }
+        if (userAnswers.length !== questions.length) {
+            return res.status(400).json({
+                success: false,
+                message: "The number of answers provided does not match the number of questions"
+            });
+        }
+
+        
+        let score = 0;
+        for (let i = 0; i < questions.length; i++) {
+            if (questions[i].key === userAnswers[i]) {
+            }
+        }
+
+       
+        return res.status(200).json({
+            success: true,
+            totalQuestions: questions.length,
+            correctAnswers: score,
+            incorrectAnswers: questions.length - score
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({
+            success: false,
+            error: err.message
+        });
+    }
+});
 
 module.exports=router;
 

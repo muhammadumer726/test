@@ -1,8 +1,5 @@
 const mongoose=require('mongoose')
 
-
-
-
 const quiz = new mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
     question: {

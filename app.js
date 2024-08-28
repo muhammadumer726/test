@@ -40,7 +40,7 @@ app.use((req,res,next)=>{
 })
 
 
-mongoose.connect("mongodb+srv://kaleemchd403:"+ process.env.MONGO_ATLAS_PW +"@cluster0.uokr3.mongodb.net/")
+mongoose.connect("mongodb+srv://kaleemchd403:6lepAGSOttbUVTTT@cluster0.uokr3.mongodb.net/")
 .then(result=>{
     console.log('app connedted to the database');
 });
